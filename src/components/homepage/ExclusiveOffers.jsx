@@ -83,7 +83,7 @@ function ExclusiveOffers() {
   const totalSlides = 3; // Number of slides you have
 
   return (
-    <Center bg={"#1a2224"} p={"50"}>
+    <Center p={"50"}>
       <Box width="100%" maxWidth="1080px">
         <Flex align="center" justifyContent="space-between" mb={8}>
           <Text color="white" fontWeight="bold" fontSize="3xl">
