@@ -4,7 +4,7 @@ import ExclusiveOffers from "../../components/homepage/ExclusiveOffers";
 
 function HomePage() {
   return (
-    <Box>
+    <Box bg={"#1a2224"}>
       <Center p={3} bg={"#202020"}>
         <Text color={"white"} mr={5}>
           LET&apos;S ORDER FOR DELIVERY, PICK UP, OR DINE-IN

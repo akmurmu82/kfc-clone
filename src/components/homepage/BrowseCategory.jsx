@@ -21,7 +21,7 @@ function ProductCard({ image, title }) {
 
 function BrowseCategory() {
   return (
-    <Box p={100}>
+    <Box p={100} bg={"#fff"}>
       <Box position="relative" mb={8}>
         <Flex align="center">
           <Text bg="white" fontWeight="bold" fontSize="3xl">
