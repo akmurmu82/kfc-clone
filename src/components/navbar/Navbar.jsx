@@ -8,12 +8,14 @@ function Navbar() {
   }
   const menus = [{ title: "Menu" }, { title: "Deals" }];
   return (
-    <>
+    <Box position={"sticky"} bg={"#fff"} top={0} width={"100%"} zIndex={9}>
       <Flex
         p={"10px"}
+        width={"100%"}
         justifyContent={"center"}
         alignItems={"center"}
         gap={"5px"}
+        borderBottom={"1px solid #d3d3d3"}
         fontSize={"14px"}
       >
         <FaLocationDot color="#e4002b" />
@@ -23,7 +25,7 @@ function Navbar() {
             padding: "5px 10px",
             backgroundColor: "#181818",
             color: "#fff",
-            border: "1px solid",
+
             borderRadius: "17px",
           }}
         >
@@ -33,9 +35,7 @@ function Navbar() {
       <Flex
         p={{ lg: "30px 150px" }}
         justifyContent={"space-between"}
-        w={"100vw"}
         h={"100px"}
-        border={"1px solid #f3f3f3"}
       >
         <Flex
           // border="1px solid"
@@ -68,7 +68,7 @@ function Navbar() {
           />
         </Flex>
       </Flex>
-    </>
+    </Box>
   );
 }
 
