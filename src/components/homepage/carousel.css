@@ -1,0 +1,9 @@
+/* carousel.css */
+.slick-slide {
+    padding: 0 10px;
+  }
+  
+  .slick-list {
+    margin: 0 -10px; /* This ensures there is no extra space on the sides of the carousel */
+  }
+  
