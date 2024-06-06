@@ -33,7 +33,7 @@ function Navbar() {
         </Box>
       </Flex>
       <Flex
-        p={{ lg: "30px 150px" }}
+        p={{ lg: "30px 130px" }}
         justifyContent={"space-between"}
         h={"100px"}
       >
