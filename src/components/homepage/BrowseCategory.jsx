@@ -1,6 +1,6 @@
 import { Box, Divider, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 
-function ProductCard({ image, title }) {
+export function ProductCard({ image, title }) {
   return (
     <Box
       borderWidth="1px"
