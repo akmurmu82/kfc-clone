@@ -7,12 +7,15 @@ import {
   Text,
   VStack,
   useToast,
+  HStack,
+  Input,
 } from "@chakra-ui/react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 function Category({ title, products }) {
-  console.log(products);
+  // console.log(products);
   return (
     <VStack
       p={"20px"}
@@ -32,6 +35,7 @@ function Category({ title, products }) {
             title={product.name}
             price={product.price}
             desc={product.desc}
+            id={product.id}
           />
         ))}
       </SimpleGrid>
@@ -46,6 +50,7 @@ Category.propTypes = {
 
 function ProductCard({ image, title, price, desc, id }) {
   const toast = useToast();
+  const [quantity, setQuantity] = useState(0);
 
   const addToCart = async () => {
     try {
@@ -55,9 +60,11 @@ function ProductCard({ image, title, price, desc, id }) {
         title,
         price,
         desc,
+        quantity: 1,
       });
 
       if (response.status === 201) {
+        setQuantity(1);
         toast({
           title: "Added to Cart",
           description: `${title} has been added to your cart.`,
@@ -77,21 +84,69 @@ function ProductCard({ image, title, price, desc, id }) {
     }
   };
 
+  const updateCartQuantity = async (newQuantity) => {
+    try {
+      await axios.patch(`http://localhost:3000/cart/${id}`, {
+        quantity: newQuantity,
+      });
+      setQuantity(newQuantity);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error updating the quantity",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error("There was an error updating the quantity", error);
+    }
+  };
+
   return (
     <Box cursor={"pointer"} overflow="hidden">
       <Image src={image} borderRadius="md" alt={title} />
       <Box mt={2} p={3}>
-        <Text fontWeight="bold" fontSize="lg" mb={3}>
+        <Text fontWeight="bold" fontSize="lg">
           {title}
         </Text>
-        <Text fontWeight="bold" fontSize="md" mb={3}>
+        <Text fontWeight="bold" fontSize="md">
           {price}
         </Text>
         <Text fontSize="sm" mb={3}>
           {desc}
         </Text>
-
-        <AddButton title="Add to Cart" onClick={addToCart} />
+        {quantity === 0 ? (
+          <AddButton title="Add to Cart" onClick={addToCart} />
+        ) : (
+          <HStack>
+            <Button
+              borderRadius={"20px"}
+              bg={"#e4002b"}
+              p={2}
+              color={"#fff"}
+              isDisabled={quantity == 1}
+              onClick={() => updateCartQuantity(quantity - 1)}
+            >
+              -
+            </Button>
+            <Input
+              value={quantity}
+              isReadOnly
+              width="50px"
+              border={"none"}
+              textAlign={"center"}
+            />
+            <Button
+              borderRadius={"20px"}
+              bg={"#e4002b"}
+              p={2}
+              color={"#fff"}
+              onClick={() => updateCartQuantity(quantity + 1)}
+            >
+              +
+            </Button>
+          </HStack>
+        )}
       </Box>
     </Box>
   );
