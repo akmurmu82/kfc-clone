@@ -1,4 +1,5 @@
 import { Box, Image, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
 function ProductCard({ image, title }) {
   return (
@@ -18,6 +19,11 @@ function ProductCard({ image, title }) {
     </Box>
   );
 }
+
+ProductCard.propTypes = {
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 function Category({ title, products }) {
   return (
@@ -45,5 +51,10 @@ function Category({ title, products }) {
     </VStack>
   );
 }
+
+Category.propTypes = {
+  title: PropTypes.string.isRequired,
+  products: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default Category;
