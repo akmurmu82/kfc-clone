@@ -1,12 +1,26 @@
 import { Flex, Text, Image, Divider, Box } from "@chakra-ui/react";
 import { ImUserTie } from "react-icons/im";
 import { FaLocationDot } from "react-icons/fa6";
+import { Link as RouterLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function Navbar() {
-  function Menu(prop) {
-    return <Text fontWeight={"bold"}>{prop.title}</Text>;
+  function MenuLink({ link, title }) {
+    return (
+      <Text fontWeight={"bold"}>
+        <RouterLink to={link}>{title}</RouterLink>
+      </Text>
+    );
   }
-  const menus = [{ title: "Menu" }, { title: "Deals" }];
+
+  MenuLink.propTypes = {
+    link: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  };
+  const menus = [
+    { title: "Menu", link: "/menu" },
+    { title: "Deals", link: "/deas" },
+  ];
   return (
     <Box position={"sticky"} bg={"#fff"} top={0} width={"100%"} zIndex={9}>
       <Flex
@@ -38,7 +52,6 @@ function Navbar() {
         h={"100px"}
       >
         <Flex
-          // border="1px solid"
           justifyContent={"space-between"}
           alignItems={"center"}
           w={"250px"}
@@ -48,7 +61,7 @@ function Navbar() {
             src="https://www.logolynx.com/images/logolynx/29/29e74482894d58dad8917a1c228d6941.jpeg"
           />
           {menus.map((menu, ind) => (
-            <Menu key={ind} title={menu.title} />
+            <MenuLink key={ind} title={menu.title} link={menu.link} />
           ))}
         </Flex>
         <Flex
