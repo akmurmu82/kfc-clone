@@ -13,9 +13,11 @@ import { useEffect, useRef, useState } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
 import SidePanel from "../../components/menupage/SidePanel";
 import Category from "../../components/menupage/Category";
+import axios from "axios";
 
 function MenuPage() {
   const [currentCategory, setCurrentCategory] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
   const categoryRefs = useRef({});
 
   const products = [
@@ -24,6 +26,15 @@ function MenuPage() {
     "VALUE LUNCH SPECIALS",
     "BOX MEALS",
   ];
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const res = await axios.get("http://localhost:3000/products");
+      // console.log(res.data);
+      setAllProducts(res.data);
+    }
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const observerOptions = {
@@ -88,7 +99,7 @@ function MenuPage() {
               id={title}
               ref={(el) => (categoryRefs.current[title] = el)}
             >
-              <Category title={title} products={products} />
+              <Category title={title} products={allProducts} />
             </div>
           ))}
         </VStack>
