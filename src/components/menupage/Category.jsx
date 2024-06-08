@@ -14,7 +14,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-function Category({ title, products }) {
+function Category({ title, products, userId }) {
   // console.log(products);
   return (
     <VStack
@@ -26,7 +26,7 @@ function Category({ title, products }) {
     >
       <Text textAlign={"left"} m={5} fontSize={"25px"} fontWeight={"bold"}>
         {title}
-      </Text>
+      </Text>,htjiy
       <SimpleGrid columns={[1, 2]} gap={5}>
         {products.map((product, index) => (
           <ProductCard
@@ -36,6 +36,7 @@ function Category({ title, products }) {
             price={product.price}
             desc={product.desc}
             id={product.id}
+            userId={userId}
           />
         ))}
       </SimpleGrid>
@@ -46,21 +47,19 @@ function Category({ title, products }) {
 Category.propTypes = {
   title: PropTypes.string.isRequired,
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userId: PropTypes.number.isRequired,
 };
 
-function ProductCard({ image, title, price, desc, id }) {
+function ProductCard({ image, title, price, desc, id, userId }) {
   const toast = useToast();
   const [quantity, setQuantity] = useState(0);
 
   const addToCart = async () => {
     try {
       const response = await axios.post("http://localhost:3000/cart", {
-        id,
-        image,
-        title,
-        price,
-        desc,
+       productId: id,
         quantity: 1,
+        userId,
       });
 
       if (response.status === 201) {
@@ -181,6 +180,7 @@ ProductCard.propTypes = {
   price: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
 };
 
 export default Category;
