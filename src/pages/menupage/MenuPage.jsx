@@ -15,6 +15,8 @@ import SidePanel from "../../components/menupage/SidePanel";
 import Category from "../../components/menupage/Category";
 import axios from "axios";
 
+const BE_BASE_URL=`https://be-kfc.onrender.com`
+
 function MenuPage() {
   const [currentCategory, setCurrentCategory] = useState("");
   const [allProducts, setAllProducts] = useState([]);
@@ -29,9 +31,9 @@ function MenuPage() {
 
   useEffect(() => {
     async function fetchProducts() {
-      const res = await axios.get("http://localhost:3000/products");
-      // console.log(res.data);
-      setAllProducts(res.data);
+      const res = await axios.get(`${BE_BASE_URL}/products/all-products`);
+      console.log(res.data.data);
+      setAllProducts(res.data.data);
     }
     fetchProducts();
   }, []);

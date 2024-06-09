@@ -109,7 +109,7 @@ function ProductCard({ image, title, price, desc, id, userId }) {
           {title}
         </Text>
         <Text fontWeight="bold" fontSize="md">
-          {price}
+        ₹{price}
         </Text>
         <Text fontSize="sm" mb={3}>
           {desc}
