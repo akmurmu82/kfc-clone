@@ -54,19 +54,19 @@
     {
       "id": 1,
       "productId": 1,
-      "quantity": 1,
+      "quantity": 2,
       "userId": 1
     },
     {
       "id": 2,
       "productId": 2,
-      "quantity": 1,
+      "quantity": 2,
       "userId": 1
     },
     {
       "id": 3,
       "productId": 3,
-      "quantity": 1,
+      "quantity": 2,
       "userId": 2
     },
     {
@@ -79,6 +79,34 @@
       "productId": 1,
       "quantity": 1,
       "id": 5
+    },
+    {
+      "productId": 1,
+      "quantity": 1,
+      "id": 6
+    },
+    {
+      "productId": 2,
+      "quantity": 1,
+      "id": 7
+    },
+    {
+      "productId": 1,
+      "quantity": 1,
+      "id": 8
+    },
+    {
+      "productId": 3,
+      "quantity": 1,
+      "id": 9
+    },
+    {
+      "quantity": 1,
+      "id": 10
+    },
+    {
+      "quantity": 1,
+      "id": 11
     }
   ]
 }
