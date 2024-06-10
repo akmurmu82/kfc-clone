@@ -16,6 +16,7 @@ const BE_KFC_URL = `https://be-kfc.onrender.com`;
 function SignupForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
+  const [userDetails, setUserDetails] = useState({});
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const toast = useToast();
@@ -55,14 +56,21 @@ function SignupForm() {
         otp,
       });
       if (response.data.success) {
-        setOtpVerified(true);
-        toast({
-          title: "Verification successful.",
-          description: "Your phone number has been verified.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
+        // Registering the user with the phone number
+        const res2 = await axios.post(`http://localhost:8080/users/register`, {
+          phoneNumber,
         });
+        if (res2.data.message == "Email already exists.") {
+          setUserDetails(res2.data.data);
+          setOtpVerified(true);
+          toast({
+            title: "Verification successful.",
+            description: "Your phone number has been verified.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
       } else {
         toast({
           title: "Verification failed.",
