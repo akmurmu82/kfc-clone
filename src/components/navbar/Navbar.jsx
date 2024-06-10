@@ -19,7 +19,7 @@ function Navbar() {
   };
   const menus = [
     { title: "Menu", link: "/menu" },
-    { title: "Deals", link: "/deas" },
+    { title: "Deals", link: "/deals" },
   ];
   return (
     <Box position={"sticky"} bg={"#fff"} top={0} width={"100%"} zIndex={9}>
@@ -62,7 +62,7 @@ function Navbar() {
           />
           {menus.map((menu, ind) => (
             <MenuLink key={ind} title={menu.title} link={menu.link} />
-          ))}
+            ))}
         </Flex>
         <Flex
           justifyContent={"space-between"}
@@ -71,7 +71,7 @@ function Navbar() {
           // border="1px solid"
         >
           <ImUserTie />
-          <Text fontWeight={"bold"}>Sign Up</Text>
+          <MenuLink title='Sign Up' link='/signup' />
           <Divider orientation="vertical" />
           <Text>₹0</Text>
 
