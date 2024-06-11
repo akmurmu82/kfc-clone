@@ -3,8 +3,11 @@ import { ImUserTie } from "react-icons/im";
 import { FaLocationDot } from "react-icons/fa6";
 import { Link as RouterLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 function Navbar() {
+  const user = useSelector((state) => state.user);
+  console.log(user);
   function MenuLink({ link, title }) {
     return (
       <Text fontWeight={"bold"}>
@@ -62,7 +65,7 @@ function Navbar() {
           />
           {menus.map((menu, ind) => (
             <MenuLink key={ind} title={menu.title} link={menu.link} />
-            ))}
+          ))}
         </Flex>
         <Flex
           justifyContent={"space-between"}
@@ -70,8 +73,13 @@ function Navbar() {
           w={"170px"}
           // border="1px solid"
         >
-          <ImUserTie />
-          <MenuLink title='Sign Up' link='/signup' />
+          <Box>
+            {user._id == null ? <ImUserTie /> : <Image w={'30px'} src={user.photoURL} />}
+          </Box>
+          <MenuLink
+            title={user._id == null ? "Sign Up" : user.name}
+            link="/signup"
+          />
           <Divider orientation="vertical" />
           <Text>₹0</Text>
 
