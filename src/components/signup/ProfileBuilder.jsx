@@ -29,7 +29,7 @@ function ProfileBuilder({ navigate }) {
   const handleProfileSubmit = async () => {
     // Here you can send the profile data to the backend if needed
     try {
-      const response = axios.post(`${BE_KFC_URL}/users/update`, {
+      const response = await axios.post(`${BE_KFC_URL}/users/update`, {
         userId: user._id,
         name,
         email,
