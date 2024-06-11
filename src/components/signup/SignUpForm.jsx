@@ -10,13 +10,15 @@ import {
 import ProfileBuilder from "./ProfileBuilder";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/slices/userSlice";
 
 const BE_KFC_URL = `https://be-kfc.onrender.com`;
 
 function SignupForm() {
+  const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [userDetails, setUserDetails] = useState({});
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const toast = useToast();
@@ -57,11 +59,12 @@ function SignupForm() {
       });
       if (response.data.success) {
         // Registering the user with the phone number
-        const res2 = await axios.post(`http://localhost:8080/users/register`, {
+        const res2 = await axios.post(`${BE_KFC_URL}/users/register`, {
           phoneNumber,
         });
         if (res2.data.message == "Email already exists.") {
-          setUserDetails(res2.data.data);
+          dispatch(setUser(res2.data.data));
+          // console.log(res2.data.data);
           setOtpVerified(true);
           toast({
             title: "Verification successful.",
