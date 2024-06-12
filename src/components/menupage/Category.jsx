@@ -14,6 +14,8 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
+const BE_BASE_URL = `https://be-kfc.onrender.com`;
+
 function Category({ title, products, userId }) {
   // console.log(products);
   return (
@@ -26,7 +28,8 @@ function Category({ title, products, userId }) {
     >
       <Text textAlign={"left"} m={5} fontSize={"25px"} fontWeight={"bold"}>
         {title}
-      </Text>,htjiy
+      </Text>
+      ,htjiy
       <SimpleGrid columns={[1, 2]} gap={5}>
         {products.map((product, index) => (
           <ProductCard
@@ -35,7 +38,7 @@ function Category({ title, products, userId }) {
             title={product.name}
             price={product.price}
             desc={product.desc}
-            id={product.id}
+            id={product._id}
             userId={userId}
           />
         ))}
@@ -46,8 +49,8 @@ function Category({ title, products, userId }) {
 
 Category.propTypes = {
   title: PropTypes.string.isRequired,
-  products: PropTypes.arrayOf(PropTypes.string).isRequired,
-  userId: PropTypes.number.isRequired,
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userId: PropTypes.number,
 };
 
 function ProductCard({ image, title, price, desc, id, userId }) {
@@ -56,8 +59,8 @@ function ProductCard({ image, title, price, desc, id, userId }) {
 
   const addToCart = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/cart", {
-       productId: id,
+      const response = await axios.post(`${BE_BASE_URL}/cart`, {
+        productId: id,
         quantity: 1,
         userId,
       });
@@ -85,7 +88,7 @@ function ProductCard({ image, title, price, desc, id, userId }) {
 
   const updateCartQuantity = async (newQuantity) => {
     try {
-      await axios.patch(`http://localhost:3000/cart/${id}`, {
+      await axios.patch(`${BE_BASE_URL}/cart/${id}`, {
         quantity: newQuantity,
       });
       setQuantity(newQuantity);
@@ -109,7 +112,7 @@ function ProductCard({ image, title, price, desc, id, userId }) {
           {title}
         </Text>
         <Text fontWeight="bold" fontSize="md">
-        ₹{price}
+          ₹{price}
         </Text>
         <Text fontSize="sm" mb={3}>
           {desc}
@@ -177,10 +180,10 @@ AddButton.propTypes = {
 ProductCard.propTypes = {
   image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   desc: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  userId: PropTypes.number,
 };
 
 export default Category;

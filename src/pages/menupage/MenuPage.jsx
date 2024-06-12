@@ -14,12 +14,16 @@ import { SearchIcon } from "@chakra-ui/icons";
 import SidePanel from "../../components/menupage/SidePanel";
 import Category from "../../components/menupage/Category";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setProducts } from "../../redux/slices/productSlice";
 
-const BE_BASE_URL=`https://be-kfc.onrender.com`
+const BE_BASE_URL = `https://be-kfc.onrender.com`;
 
 function MenuPage() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const productsArr = useSelector((state) => state.productsArr);
   const [currentCategory, setCurrentCategory] = useState("");
-  const [allProducts, setAllProducts] = useState([]);
   const categoryRefs = useRef({});
 
   const products = [
@@ -31,12 +35,16 @@ function MenuPage() {
 
   useEffect(() => {
     async function fetchProducts() {
-      const res = await axios.get(`${BE_BASE_URL}/products/all-products`);
-      console.log(res.data.data);
-      setAllProducts(res.data.data);
+      try {
+        const res = await axios.get(`${BE_BASE_URL}/products/all-products`);
+        console.log(res.data.data);
+        dispatch(setProducts(res.data.data));
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+      }
     }
     fetchProducts();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const observerOptions = {
@@ -53,6 +61,8 @@ function MenuPage() {
       });
     }, observerOptions);
 
+    var categoryRefsCurrent = categoryRefs.current;
+
     products.forEach((title) => {
       if (categoryRefs.current[title]) {
         observer.observe(categoryRefs.current[title]);
@@ -61,12 +71,12 @@ function MenuPage() {
 
     return () => {
       products.forEach((title) => {
-        if (categoryRefs.current[title]) {
-          observer.unobserve(categoryRefs.current[title]);
+        if (categoryRefsCurrent[title]) {
+          observer.unobserve(categoryRefsCurrent[title]);
         }
       });
     };
-  }, [products]);
+  });
 
   return (
     <VStack>
@@ -101,7 +111,13 @@ function MenuPage() {
               id={title}
               ref={(el) => (categoryRefs.current[title] = el)}
             >
-              <Category title={title} products={allProducts} />
+              <Category
+                title={title}
+                userId={user._id}
+                // products={allProducts}
+                products={productsArr}
+                // products={productsArr.filter(product => product.category === title)}
+              />
             </div>
           ))}
         </VStack>
