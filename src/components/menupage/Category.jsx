@@ -59,13 +59,14 @@ function ProductCard({ image, title, price, desc, id, userId }) {
 
   const addToCart = async () => {
     try {
-      const response = await axios.post(`${BE_BASE_URL}/cart`, {
+      const response = await axios.post(`${BE_BASE_URL}/cart/add`, {
         productId: id,
         quantity: 1,
         userId,
       });
 
-      if (response.status === 201) {
+      if (response.status) {
+        console.log(`${title} has been added to ${userId}'s cart.`);
         setQuantity(1);
         toast({
           title: "Added to Cart",
@@ -88,9 +89,10 @@ function ProductCard({ image, title, price, desc, id, userId }) {
 
   const updateCartQuantity = async (newQuantity) => {
     try {
-      await axios.patch(`${BE_BASE_URL}/cart/${id}`, {
-        quantity: newQuantity,
+      let response = await axios.get(`${BE_BASE_URL}/cart/get`, {
+        userId,
       });
+      console.log("cart:", response.data);
       setQuantity(newQuantity);
     } catch (error) {
       toast({
