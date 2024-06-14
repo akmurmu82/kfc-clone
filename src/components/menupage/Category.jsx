@@ -89,10 +89,10 @@ function ProductCard({ image, title, price, desc, id, userId }) {
 
   const updateCartQuantity = async (newQuantity) => {
     try {
-      let response = await axios.get(`${BE_BASE_URL}/cart/get`, {
+      let response = await axios.post(`${BE_BASE_URL}/cart/get`, {
         userId,
       });
-      console.log("cart:", response.data);
+      console.log("cart:", response.data.data);
       setQuantity(newQuantity);
     } catch (error) {
       toast({
@@ -189,3 +189,5 @@ ProductCard.propTypes = {
 };
 
 export default Category;
+
+// making an empty commit to maintain streak
