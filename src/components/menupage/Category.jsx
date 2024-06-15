@@ -50,59 +50,41 @@ function Category({ title, products, userId }) {
 Category.propTypes = {
   title: PropTypes.string.isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
-  userId: PropTypes.number,
+  userId: PropTypes.string,
 };
 
 function ProductCard({ image, title, price, desc, id, userId }) {
   const toast = useToast();
   const [quantity, setQuantity] = useState(0);
 
-  const addToCart = async () => {
+  const addToCart = async (quantity) => {
     try {
       const response = await axios.post(`${BE_BASE_URL}/cart/add`, {
         productId: id,
-        quantity: 1,
+        quantity,
         userId,
       });
 
       if (response.status) {
         console.log(`${title} has been added to ${userId}'s cart.`);
-        setQuantity(1);
+        setQuantity((prev) => prev + quantity);
         toast({
           title: "Added to Cart",
           description: `${title} has been added to your cart.`,
           status: "success",
-          duration: 5000,
+          duration: 3000,
           isClosable: true,
         });
       }
     } catch (error) {
+      console.log("error: ", error)
       toast({
         title: "Error",
         description: "There was an error adding the item to the cart.",
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
-    }
-  };
-
-  const updateCartQuantity = async (newQuantity) => {
-    try {
-      let response = await axios.post(`${BE_BASE_URL}/cart/get`, {
-        userId,
-      });
-      console.log("cart:", response.data.data);
-      setQuantity(newQuantity);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "There was an error updating the quantity",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      console.error("There was an error updating the quantity", error);
     }
   };
 
@@ -120,7 +102,7 @@ function ProductCard({ image, title, price, desc, id, userId }) {
           {desc}
         </Text>
         {quantity === 0 ? (
-          <AddButton title="Add to Cart" onClick={addToCart} />
+          <AddButton title="Add to Cart" onClick={() => addToCart(1)} />
         ) : (
           <HStack>
             <Button
@@ -128,8 +110,8 @@ function ProductCard({ image, title, price, desc, id, userId }) {
               bg={"#e4002b"}
               p={2}
               color={"#fff"}
-              isDisabled={quantity == 1}
-              onClick={() => updateCartQuantity(quantity - 1)}
+              isDisabled={quantity == 0}
+              onClick={() => addToCart(-1)}
             >
               -
             </Button>
@@ -145,7 +127,7 @@ function ProductCard({ image, title, price, desc, id, userId }) {
               bg={"#e4002b"}
               p={2}
               color={"#fff"}
-              onClick={() => updateCartQuantity(quantity + 1)}
+              onClick={()=>addToCart(1)}
             >
               +
             </Button>
@@ -185,7 +167,7 @@ ProductCard.propTypes = {
   price: PropTypes.number.isRequired,
   desc: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  userId: PropTypes.number,
+  userId: PropTypes.string,
 };
 
 export default Category;
