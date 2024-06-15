@@ -13,11 +13,9 @@ import { useEffect, useRef, useState } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
 import SidePanel from "../../components/menupage/SidePanel";
 import Category from "../../components/menupage/Category";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../../redux/slices/productSlice";
-
-const BE_BASE_URL = `https://be-kfc.onrender.com`;
+import { fetchProducts } from "../../services/cartServices";
 
 function MenuPage() {
   const dispatch = useDispatch();
@@ -34,16 +32,16 @@ function MenuPage() {
   ];
 
   useEffect(() => {
-    async function fetchProducts() {
+    async function getProducts() {
       try {
-        const res = await axios.get(`${BE_BASE_URL}/products/all-products`);
-        console.log(res.data.data);
-        dispatch(setProducts(res.data.data));
+        let cart = await fetchProducts();
+        console.log(cart);
+        dispatch(setProducts(cart));
       } catch (error) {
         console.error("Failed to fetch products", error);
       }
     }
-    fetchProducts();
+    getProducts();
   }, [dispatch]);
 
   useEffect(() => {
