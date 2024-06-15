@@ -14,3 +14,12 @@ export const addToCart = async (userId, productId, quantity) => {
     throw error;
   }
 };
+
+export const fetchProducts = async () => {
+  try {
+    const res = await axios.get(`${BE_BASE_URL}/products/all-products`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Failed to fetch products", error);
+  }
+};
