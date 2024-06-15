@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 
 function Navbar() {
   const user = useSelector((state) => state.user);
-  console.log(user);
+  const cart = useSelector((state) => state.cart);
+  console.log(user, cart);
   function MenuLink({ link, title }) {
     return (
       <Text fontWeight={"bold"}>
@@ -55,14 +56,24 @@ function Navbar() {
         h={"100px"}
       >
         <Flex
-          justifyContent={"space-between"}
+          justifyContent={"space-around"}
+          // border="1px solid red"
           alignItems={"center"}
           w={"250px"}
         >
-          <Image
-            h={"100%"}
-            src="https://www.logolynx.com/images/logolynx/29/29e74482894d58dad8917a1c228d6941.jpeg"
-          />
+          <RouterLink
+            to="/"
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              height="40px"
+              src="https://www.logolynx.com/images/logolynx/29/29e74482894d58dad8917a1c228d6941.jpeg"
+            />
+          </RouterLink>
           {menus.map((menu, ind) => (
             <MenuLink key={ind} title={menu.title} link={menu.link} />
           ))}
@@ -71,22 +82,51 @@ function Navbar() {
           justifyContent={"space-between"}
           alignItems={"center"}
           w={"170px"}
-          // border="1px solid"
         >
           <Box>
-            {user._id == null ? <ImUserTie /> : <Image w={'30px'} src={user.photoURL} />}
+            {user._id == null ? (
+              <ImUserTie />
+            ) : (
+              <Image w={"30px"} src={user.photoURL} />
+            )}
           </Box>
           <MenuLink
             title={user._id == null ? "Sign Up" : user.name}
             link="/signup"
           />
           <Divider orientation="vertical" />
-          <Text>₹0</Text>
-
-          <Image
-            h={"100%"}
-            src="https://images.ctfassets.net/wtodlh47qxpt/6qtBVFuno7pdwOQ9RIvYm9/d13e9b7242980972cf49beddde2cc295/bucket_cart_icon.svg"
-          />
+          <RouterLink to="/cart">
+            <Flex
+              // border="1px solid"
+              fontSize="20px"
+              w="70px"
+              _hover={{ textDecoration: "none", color: "#e4002b" }}
+              justifyContent="space-between"
+              alignItems="center"
+              h="100%"
+              position="relative"
+            >
+              <Text>₹0</Text>
+              <Box position="relative" w="60%">
+                <Image
+                  w="100%"
+                  src="https://images.ctfassets.net/wtodlh47qxpt/6qtBVFuno7pdwOQ9RIvYm9/d13e9b7242980972cf49beddde2cc295/bucket_cart_icon.svg"
+                />
+                <Box
+                  position="absolute"
+                  top="50%"
+                  left="50%"
+                  transform="translate(-50%, -50%)"
+                  fontWeight={"bold"}
+                  borderRadius="50%"
+                  padding="0.25em 0.5em"
+                  fontSize="12px"
+                >
+                  {cart.items.length}
+                </Box>
+              </Box>
+            </Flex>
+          </RouterLink>
         </Flex>
       </Flex>
     </Box>

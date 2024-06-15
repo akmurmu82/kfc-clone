@@ -7,7 +7,6 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     setProducts(state, action) {
-      // Correct way to replace the entire array
       return action.payload;
     },
     addProduct(state, action) {
