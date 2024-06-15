@@ -10,13 +10,16 @@ import {
 import ProfileBuilder from "./ProfileBuilder";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/slices/userSlice";
+import { getCart } from "../../services/cartServices";
+import { setCart } from "../../redux/slices/cartSlice";
 
 const BE_KFC_URL = `https://be-kfc.onrender.com`;
 
 function SignupForm() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -63,8 +66,11 @@ function SignupForm() {
           phoneNumber,
         });
         if (res2.data.message == "Email already exists.") {
-          dispatch(setUser(res2.data.data));
-          // console.log(res2.data.data);
+          let currUser = res2.data.data;
+          dispatch(setUser(currUser));
+          let res = await getCart(user._id);
+          console.log("cart:", res.data);
+          dispatch(setCart({ userId: currUser._id, items: res.data }));
           setOtpVerified(true);
           toast({
             title: "Verification successful.",
