@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 function Navbar() {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
-  console.log(user, cart);
+  console.log("currUser:", user, "currCart:", cart);
   function MenuLink({ link, title }) {
     return (
       <Text fontWeight={"bold"}>
@@ -81,7 +81,7 @@ function Navbar() {
         <Flex
           justifyContent={"space-between"}
           alignItems={"center"}
-          w={"170px"}
+          w={"fit-content"}
         >
           <Box>
             {user._id == null ? (
@@ -99,14 +99,23 @@ function Navbar() {
             <Flex
               // border="1px solid"
               fontSize="20px"
-              w="70px"
+              w="100px"
               _hover={{ textDecoration: "none", color: "#e4002b" }}
               justifyContent="space-between"
               alignItems="center"
               h="100%"
               position="relative"
             >
-              <Text>₹0</Text>
+              ₹
+              <Text>
+                {Math.floor(
+                  cart.items.reduce((acc, { price, quantity }) => {
+                    let itemTotalPrice = price * quantity;
+                    // console.log(itemTotalPrice);
+                    return acc + itemTotalPrice;
+                  }, 0)
+                )}
+              </Text>
               <Box position="relative" w="60%">
                 <Image
                   w="100%"

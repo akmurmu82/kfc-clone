@@ -11,24 +11,29 @@ import { useState } from "react";
 import { addToCart } from "../../services/cartServices";
 import AddButton from "./AddButton";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../../redux/slices/cartSlice";
 
 function ProductCard({ image, title, price, desc, id, userId }) {
   const toast = useToast();
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(0);
 
   const handleAddToCart = async (quantity) => {
     try {
-      const response = await addToCart(userId, id, quantity);
+      const response = await addToCart(userId, id, quantity, price);
 
       if (response.status) {
         console.log(`${title} has been added to ${userId}'s cart.`);
         setQuantity((prev) => prev + quantity);
+        dispatch(addItemToCart({ productId: id, quantity: 1, price }));
         toast({
           title: "Added to Cart",
           description: `${title} has been added to your cart.`,
           status: "success",
           duration: 3000,
           isClosable: true,
+          position: "top",
         });
       }
     } catch (error) {
@@ -38,6 +43,7 @@ function ProductCard({ image, title, price, desc, id, userId }) {
         description: "There was an error adding the item to the cart.",
         status: "error",
         duration: 3000,
+        position: "top",
         isClosable: true,
       });
     }

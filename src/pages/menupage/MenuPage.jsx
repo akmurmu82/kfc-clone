@@ -34,9 +34,8 @@ function MenuPage() {
   useEffect(() => {
     async function getProducts() {
       try {
-        let cart = await fetchProducts();
-        console.log(cart);
-        dispatch(setProducts(cart));
+        let products = await fetchProducts();
+        dispatch(setProducts(products));
       } catch (error) {
         console.error("Failed to fetch products", error);
       }

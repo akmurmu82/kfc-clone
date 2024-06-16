@@ -15,7 +15,6 @@ function Category({ title, products, userId }) {
       <Text textAlign={"left"} m={5} fontSize={"25px"} fontWeight={"bold"}>
         {title}
       </Text>
-      ,htjiy
       <SimpleGrid columns={[1, 2]} gap={5}>
         {products.map((product, index) => (
           <ProductCard
