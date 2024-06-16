@@ -1,12 +1,13 @@
 import axios from "axios";
 import BE_BASE_URL from "../config";
 
-export const addToCart = async (userId, productId, quantity) => {
+export const addToCart = async (userId, productId, quantity, price) => {
   try {
     const response = await axios.post(`${BE_BASE_URL}/cart/add`, {
       userId,
       productId,
       quantity,
+      price,
     });
     return response.data;
   } catch (error) {
@@ -14,6 +15,7 @@ export const addToCart = async (userId, productId, quantity) => {
     throw error;
   }
 };
+
 export const getCart = async (userId) => {
   try {
     const response = await axios.post(`${BE_BASE_URL}/cart/get`, {
@@ -33,4 +35,10 @@ export const fetchProducts = async () => {
   } catch (error) {
     console.error("Failed to fetch products", error);
   }
+};
+
+export const fetchProductDetails = async (productId) => {
+  let res = await axios.post(`${BE_BASE_URL}/products/${productId}`);
+  // console.log("product:", typeof res.data.data, res.data.data);
+  return res.data.data;
 };
