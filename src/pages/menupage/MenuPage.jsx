@@ -76,7 +76,7 @@ function MenuPage() {
   });
 
   return (
-    <VStack>
+    <VStack border="1px solid">
       <Center p={3} w={"100%"} bg={"#202020"}>
         <Text color={"white"} mr={5}>
           LET&apos;S ORDER FOR DELIVERY, PICK UP, OR DINE-IN

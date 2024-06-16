@@ -26,7 +26,7 @@ function Navbar() {
     { title: "Deals", link: "/deals" },
   ];
   return (
-    <Box position={"sticky"} bg={"#fff"} top={0} width={"100%"} zIndex={9}>
+    <Box position={"sticky"} bg={"#fff"} top={0} right="0" width={"100%"} zIndex={9}>
       <Flex
         p={"10px"}
         width={"100%"}
