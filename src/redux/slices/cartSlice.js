@@ -44,6 +44,12 @@ const cartSlice = createSlice({
     setUserId(state, action) {
       state.userId = action.payload;
     },
+    cartTotal(state) {
+      const cartTotal = state.items.reduce((acc, { price, quantity }) => {
+        let itemTotalPrice = price * quantity;
+        return acc + itemTotalPrice;
+      }, 0);
+    },
   },
 });
 
