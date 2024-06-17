@@ -27,8 +27,10 @@ function CartPage() {
 
   return (
     <Flex
-      p="50px"
-      w={"100%"}
+      w={"80%"}
+      m={'auto'}
+      
+      gap={"5%"}
       justifyContent={"space-between"}
       border="1px solid"
     >
@@ -59,21 +61,25 @@ function CartPage() {
           <Image src="https://online.kfc.co.in/static/media/empty_cart.32f17a45.png" />
         </Flex>
       ) : (
-        <VStack w={"60%"}>
-          {cartArr.map(({ image, productId, name, quantity, price }, index) => (
-            <CartProduct
-              key={index}
-              name={name}
-              productId={productId}
-              image={image}
-              price={price}
-              quantity={quantity}
-              removeFunc={() => handleRemoveItemFromCart(productId)}
-            />
-          ))}
-        </VStack>
+        <>
+          <VStack w={"70%"} border={"1px solid"}>
+            {cartArr.map(
+              ({ image, productId, name, quantity, price }, index) => (
+                <CartProduct
+                  key={index}
+                  name={name}
+                  productId={productId}
+                  image={image}
+                  price={price}
+                  quantity={quantity}
+                  removeFunc={() => handleRemoveItemFromCart(productId)}
+                />
+              )
+            )}
+          </VStack>
+          <CheckoutBox />
+        </>
       )}
-      <CheckoutBox />
     </Flex>
   );
 }
